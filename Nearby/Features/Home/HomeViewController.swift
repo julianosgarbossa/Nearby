@@ -8,7 +8,17 @@
 import UIKit
 import MapKit
 
+protocol HomeViewControllerDelegate: AnyObject {
+    func didSelectPlace(place: Place)
+}
+
 class HomeViewController: UIViewController {
+    private weak var delegate: HomeViewControllerDelegate?
+
+    func delegate(delegate: HomeViewControllerDelegate) {
+        self.delegate = delegate
+    }
+    
     private var screen: HomeScreen?
     private let viewModel: HomeViewModel = HomeViewModel()
     
@@ -85,7 +95,12 @@ extension HomeViewController: MKMapViewDelegate {
 }
 
 extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
 
+        let place = viewModel.loadCurrentPlace(index: indexPath.row)
+        delegate?.didSelectPlace(place: place)
+    }
 }
 
 extension HomeViewController: UITableViewDataSource {

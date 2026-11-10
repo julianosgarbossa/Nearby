@@ -33,6 +33,21 @@ extension FlowCoordinator: SplashViewControllerDelegate {
 extension FlowCoordinator: WelcomeViewControllerDelegate {
     func goToHome() {
         let homeViewController = HomeViewController()
+        homeViewController.delegate(delegate: self)
         navigationController?.pushViewController(homeViewController, animated: true)
+    }
+}
+
+extension FlowCoordinator: HomeViewControllerDelegate {
+    func didSelectPlace(place: Place) {
+        let detailViewController = DetailViewController(place: place)
+        detailViewController.delegate(delegate: self)
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
+
+extension FlowCoordinator: DetailViewControllerDelegate {
+    func goBackToHome() {
+        navigationController?.popViewController(animated: true)
     }
 }
