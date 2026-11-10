@@ -7,8 +7,17 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+protocol WelcomeViewControllerDelegate: AnyObject {
+    func goToHome()
+}
 
+class WelcomeViewController: UIViewController {
+    private weak var delegate: WelcomeViewControllerDelegate?
+    
+    func delegate(delegate: WelcomeViewControllerDelegate) {
+        self.delegate = delegate
+    }
+    
     private var screen: WelcomeScreen?
     
     override func loadView() {
@@ -18,5 +27,16 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configProtocols()
+    }
+    
+    private func configProtocols() {
+        screen?.delegate(delegate: self)
+    }
+}
+
+extension WelcomeViewController: WelcomeScreenDelegate {
+    func tappedStartButton() {
+        delegate?.goToHome()
     }
 }

@@ -25,6 +25,14 @@ final class FlowCoordinator {
 extension FlowCoordinator: SplashViewControllerDelegate {
     func decideNavigationFlow() {
         let welcomeViewController = WelcomeViewController()
+        welcomeViewController.delegate(delegate: self)
         navigationController?.pushViewController(welcomeViewController, animated: true)
+    }
+}
+
+extension FlowCoordinator: WelcomeViewControllerDelegate {
+    func goToHome() {
+        let homeViewController = HomeViewController()
+        navigationController?.pushViewController(homeViewController, animated: true)
     }
 }

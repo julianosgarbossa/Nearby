@@ -7,7 +7,17 @@
 
 import UIKit
 
+protocol WelcomeScreenDelegate: AnyObject {
+    func tappedStartButton()
+}
+
 class WelcomeScreen: UIView {
+    private weak var delegate: WelcomeScreenDelegate?
+    
+    func delegate(delegate: WelcomeScreenDelegate) {
+        self.delegate = delegate
+    }
+    
     private lazy var logoIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +73,7 @@ class WelcomeScreen: UIView {
     
     @objc
     private func tappedStartButton(_ sender: UIButton) {
-        
+        delegate?.tappedStartButton()
     }
 
     override init(frame: CGRect) {
@@ -133,5 +143,4 @@ class WelcomeScreen: UIView {
         tipsStackView.addArrangedSubview(tip2)
         tipsStackView.addArrangedSubview(tip3)
     }
-
 }
